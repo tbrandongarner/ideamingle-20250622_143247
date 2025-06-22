@@ -1,0 +1,105 @@
+:root {
+  --confirm-bg: #f0fdf4;
+  --confirm-border: #d1fae5;
+  --confirm-text: #065f46;
+  --confirm-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --confirm-icon-size: 1.5rem;
+  --confirm-padding: 1rem 1.25rem;
+  --confirm-radius: 0.5rem;
+  --confirm-transition: 0.3s ease-in-out;
+  --confirm-z: 1000;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --confirm-bg: #1f2937;
+    --confirm-border: #374151;
+    --confirm-text: #d1d5db;
+  }
+}
+
+.confirmation-file-addition {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  inset-block-end: 1.5rem;
+  inset-inline-end: 1.5rem;
+  display: flex;
+  align-items: center;
+  max-width: 20rem;
+  width: 100%;
+  padding: var(--confirm-padding);
+  background-color: var(--confirm-bg);
+  border: 1px solid var(--confirm-border);
+  border-radius: var(--confirm-radius);
+  box-shadow: var(--confirm-shadow);
+  color: var(--confirm-text);
+  color-scheme: light dark;
+  opacity: 0;
+  transform: translateY(1rem);
+  transition: opacity var(--confirm-transition), transform var(--confirm-transition);
+  pointer-events: none;
+  z-index: var(--confirm-z);
+}
+
+.confirmation-file-addition.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.confirmation-file-addition__icon {
+  flex-shrink: 0;
+  width: var(--confirm-icon-size);
+  height: var(--confirm-icon-size);
+  margin-right: 0.75rem;
+  fill: currentColor;
+}
+
+.confirmation-file-addition__message {
+  flex: 1;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+}
+
+.confirmation-file-addition__close {
+  background: transparent;
+  border: none;
+  margin-left: 0.75rem;
+  padding: 0.25rem;
+  cursor: pointer;
+  color: var(--confirm-text);
+  transition: transform var(--confirm-transition);
+}
+
+.confirmation-file-addition__close:hover {
+  transform: scale(1.1);
+}
+
+.confirmation-file-addition__close:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  .confirmation-file-addition {
+    bottom: 1rem;
+    right: 1rem;
+    inset-block-end: 1rem;
+    inset-inline-end: 1rem;
+    width: auto;
+    max-width: calc(100% - 2rem);
+    padding: 0.75rem 1rem;
+  }
+  .confirmation-file-addition__message {
+    font-size: 0.875rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .confirmation-file-addition,
+  .confirmation-file-addition.show,
+  .confirmation-file-addition__close {
+    transition: none !important;
+  }
+}
