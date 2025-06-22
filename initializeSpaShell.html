@@ -1,0 +1,91 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>IdeaMingle</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: #000;
+      color: #fff;
+      padding: 8px;
+      z-index: 100;
+      text-decoration: none;
+    }
+    .skip-link:focus {
+      top: 0;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div id="app">
+    <header class="header">
+      <div class="header__brand">IdeaMingle</div>
+      <nav class="header__nav">
+        <a href="#home" class="nav__link">Home</a>
+        <a href="#canvas" class="nav__link">Canvas</a>
+        <a href="#collab" class="nav__link">Collaborate</a>
+        <a href="#ai" class="nav__link">AI Suggestions</a>
+      </nav>
+      <div class="header__auth">
+        <button id="btn-login" type="button" class="btn">Login</button>
+        <button id="btn-signup" type="button" class="btn btn--primary">Sign Up</button>
+      </div>
+    </header>
+    <aside id="sidebar" class="sidebar hidden" aria-hidden="true">
+      <ul class="sidebar__list">
+        <li><a href="#profile" class="sidebar__link">Profile</a></li>
+        <li><a href="#settings" class="sidebar__link">Settings</a></li>
+        <li><button id="btn-logout" type="button" class="sidebar__link btn-link">Logout</button></li>
+      </ul>
+    </aside>
+    <main id="main-content" class="main"></main>
+    <div id="modal-container" class="modal-container"></div>
+    <div id="overlay" class="overlay hidden" aria-hidden="true"></div>
+    <footer class="footer">
+      <p>? 2024 IdeaMingle. All rights reserved.</p>
+    </footer>
+  </div>
+  <script type="module">
+    import { initRouter } from './router.js';
+    import * as auth from './userAuthManager.js';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const mainContent = document.getElementById('main-content');
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      const authSection = document.querySelector('.header__auth');
+
+      initRouter(mainContent);
+
+      auth.onAuthStateChanged(user => {
+        const isLoggedIn = !!user;
+        authSection.classList.toggle('hidden', isLoggedIn);
+        sidebar.classList.toggle('hidden', !isLoggedIn);
+        // aria-hidden will be synced by MutationObserver
+      });
+
+      document.getElementById('btn-login').addEventListener('click', () => auth.signIn());
+      document.getElementById('btn-signup').addEventListener('click', () => auth.signUp());
+      document.getElementById('btn-logout').addEventListener('click', () => auth.signOut());
+
+      // Observe class changes to keep aria-hidden in sync
+      const syncAriaHidden = target => {
+        const isHidden = target.classList.contains('hidden');
+        target.setAttribute('aria-hidden', String(isHidden));
+      };
+
+      const observerConfig = { attributes: true, attributeFilter: ['class'] };
+      const observer = new MutationObserver(mutations => {
+        mutations.forEach(m => syncAriaHidden(m.target));
+      });
+      observer.observe(sidebar, observerConfig);
+      observer.observe(overlay, observerConfig);
+    });
+  </script>
+</body>
+</html>
