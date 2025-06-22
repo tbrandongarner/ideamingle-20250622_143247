@@ -1,0 +1,103 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IdeaMingle</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <div class="container header-container">
+      <h1 class="logo">IdeaMingle</h1>
+      <nav class="nav-menu">
+        <ul>
+          <li><a href="#canvas">Canvas</a></li>
+          <li><a href="#collaboration">Collaboration</a></li>
+          <li><a href="#comments">Comments</a></li>
+          <li><a href="#suggestions">Suggestions</a></li>
+          <li><button id="open-auth" class="btn login-btn">Login / Signup</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div id="auth-modal" class="modal hidden">
+    <div class="modal-content">
+      <span id="close-auth" class="close-btn">&times;</span>
+      <form id="auth-form">
+        <h2 id="auth-title">Login</h2>
+        <div class="form-group">
+          <label for="auth-email">Email</label>
+          <input type="email" id="auth-email" required>
+        </div>
+        <div class="form-group">
+          <label for="auth-password">Password</label>
+          <input type="password" id="auth-password" required>
+        </div>
+        <button type="submit" class="btn primary" id="auth-submit">Submit</button>
+        <p class="toggle-text">Don't have an account? <span id="toggle-auth">Sign up</span></p>
+      </form>
+    </div>
+  </div>
+
+  <main>
+    <section id="canvas" class="section">
+      <div class="container">
+        <h2>Your Idea Canvas</h2>
+        <div id="editor" class="editor"></div>
+        <button id="save-idea" class="btn primary">Save Idea</button>
+      </div>
+    </section>
+
+    <section id="collaboration" class="section">
+      <div class="container">
+        <h2>Realtime Collaboration</h2>
+        <div id="collab-status" class="status">Connecting...</div>
+      </div>
+    </section>
+
+    <section id="comments" class="section">
+      <div class="container">
+        <h2>Comments</h2>
+        <div id="comments-list" class="comments-list"></div>
+        <form id="comment-form" class="comment-form">
+          <textarea id="comment-input" placeholder="Write a comment..." required></textarea>
+          <button type="submit" class="btn">Post Comment</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="suggestions" class="section">
+      <div class="container">
+        <h2>AI-Powered Suggestions</h2>
+        <ul id="suggestions-list" class="suggestions-list"></ul>
+        <button id="generate-suggestions" class="btn">Generate Suggestions</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+  <script type="module">
+    import './envConfigLoader.js';
+    import './userAuthManager.js';
+    import './restApiClient.js';
+    import './canvasWebSocketManager.js';
+    import './globalStatePubSub.js';
+    import './routeHistoryManager.js';
+    import './canvasEditorHistory.js';
+    import './aiCanvasSuggestionManager.js';
+    import './sideNavigationMenu.js';
+    import './topBarUserActions.js';
+    import './ideaListRenderer.js';
+    import './canvasCommentVotingManager.js';
+    import './convertCanvasToCards.js';
+    import './subscriptionCheckoutHandler.js';
+    import './accountSettingsManager.js';
+    import './addMissingAiFile.js';
+    import './addMissingSheetEntry.js';
+  </script>
+</body>
+</html>
